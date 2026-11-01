@@ -1,66 +1,54 @@
 # MyDataLabNotes
 
-Algorithms are easy to run. Knowing whether they worked is the interesting
-part.
+MyDataLabNotes is a collection of Jupyter notebooks exploring data structures,
+algorithms, and numerical computing through worked examples and experiments.
+The goal is to understand how something works, where its assumptions matter,
+and what the results actually tell us.
 
-MyDataLabNotes is a notebook-first research series about data structures,
-algorithms, representation, numerical methods, and the evidence needed to trust
-computational results. R1 contains one complete investigation:
+## Start with an experiment
 
-- [NB-001 — How do we know an algorithm worked?](notebooks/001_how_do_we_know_an_algorithm_worked.ipynb)
+**[How do we know an algorithm worked?](notebooks/001_how_do_we_know_an_algorithm_worked.ipynb)**
 
-NB-001 starts with a contract, traces an invariant, compares independent
-implementations, exhausts a tiny domain, generates reproducible cases, shrinks
-an injected defect, checks metamorphic relations, and then shows why wall-clock
-measurements are a different kind of evidence. Every dataset is synthetic.
+Insertion sort provides a small enough example to trace by hand, check against
+an independent implementation, and test with generated inputs. A deliberately
+broken version reveals how a convincing result can still be wrong. Binary
+search adds another lesson: an algorithm needs its input assumptions to hold.
 
-NB-002 and NB-004 are planned but intentionally absent. One finished notebook
-beats three half-finished ones.
+The notebook includes tests, plots, and recorded outputs. All examples use
+synthetic data. Correctness and performance are examined separately; a fast
+answer is not necessarily the right one.
 
-The first notebook separates correctness from performance: contracts, oracles,
-and finite tests address what an algorithm computes; timings describe a
-particular implementation and environment. The same distinction will matter
-in later data and ML studies, where speed alone cannot establish validity.
+## Run locally
 
-## Run it
-
-The qualified environment is CPython 3.12. Install
-[uv](https://docs.astral.sh/uv/getting-started/installation/), then:
+Use Python 3.12 and [uv](https://docs.astral.sh/uv/getting-started/installation/):
 
 ```powershell
 uv sync --locked --extra dev
 uv run jupyter lab
 ```
 
-Open the linked notebook and run it from the first cell. The committed notebook
-already contains compact outputs so it can be read on GitHub without a local
-environment.
+Open the notebook and run its cells in order. You can also read its saved
+figures and outputs directly on GitHub.
 
-For the complete quick check:
+To run the tests and re-execute the notebook in fresh kernels:
 
 ```powershell
 uv run python tools/validate.py
 ```
 
-That command checks the lock, runs Ruff and the independent test suite, executes
-NB-001 twice in fresh kernels, compares deterministic evidence, and validates
-the resulting outputs. The quick profile targets less than 60 seconds and
-1 GiB of peak process-tree RSS; the observed local result belongs in validation
-evidence, not in a timeless performance promise.
+The command checks the dependency lock, runs Ruff and the test suite, repeats
+the notebook execution, and compares its reproducible results. See the
+[reproducibility guide](docs/REPRODUCIBILITY.md) for details and
+[sources](docs/SOURCES.md) for the references behind the study.
 
-See [Reproducing NB-001](docs/REPRODUCIBILITY.md) for output refresh and
-measurement details, and [Sources](docs/SOURCES.md) for the reviewed reference
-set.
+## Limits
 
-## What this establishes
-
-The experiments provide bounded evidence for the stated integer-sequence
-contracts. They do not prove the interpreter, libraries, or hardware correct,
-and they do not turn finite testing into a proof over unbounded inputs. The
-notebook says where each claim stops.
+The tests cover stated contracts and specific finite input sets. They do not
+amount to a proof for every possible input. Timings describe the measured
+implementation and environment, not a universal speed ranking.
 
 ## License
 
 MyDataLabNotes is available under the [MIT License](LICENSE). Third-party
 packages and cited works retain their own terms; see
-[Third-party notices](THIRD_PARTY_NOTICES.md) and [Sources](docs/SOURCES.md).
+[third-party notices](THIRD_PARTY_NOTICES.md) and [sources](docs/SOURCES.md).

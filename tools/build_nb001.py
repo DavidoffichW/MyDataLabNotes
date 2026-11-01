@@ -26,7 +26,7 @@ def main() -> int:
     cells = [
         md(
             """
-            # NB-001 — How do we know an algorithm worked?
+            # How do we know an algorithm worked?
 
             A program can finish, print something plausible, and still be wrong. This
             investigation builds several kinds of evidence around two deliberately small
@@ -623,8 +623,8 @@ def main() -> int:
             large-input choice. A mathematical proof and empirical testing answer different
             questions; good engineering uses both while naming their assumptions.
 
-            NB-002 and NB-004 remain planned and unimplemented. This notebook is the complete
-            R1 boundary for the current assignment.
+            Future investigations can reuse this evidence pattern, but they will need their
+            own contracts, reference cases, and limits.
             """
         ),
     ]
