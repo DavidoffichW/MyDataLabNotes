@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mydatalabnotes"
+version = "0.1.0"
+description = "Executable notebook investigations of algorithms, evidence, and data representation"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "hypothesis",
+  "matplotlib",
+  "numpy",
+  "pandas",
+]
+
+[project.optional-dependencies]
+dev = [
+  "ipykernel",
+  "jupyterlab",
+  "nbclient",
+  "nbconvert",
+  "nbformat",
+  "psutil",
+  "pytest",
+  "ruff",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mydatalabnotes"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 96
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.uv]
+required-version = ">=0.11"

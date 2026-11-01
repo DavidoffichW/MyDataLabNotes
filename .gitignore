@@ -1,0 +1,12 @@
+.venv/
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.playwright-cli/
+build/
+dist/
+output/
+*.egg-info/
