@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,12 +19,15 @@ EXCLUDED_PARTS = {
 }
 
 
-def test_license_and_publication_gate_are_not_misrepresented() -> None:
-    pending = (ROOT / "docs" / "LICENSING_STATUS.md").read_text(encoding="utf-8").lower()
+def test_mit_license_and_metadata_are_consistent() -> None:
+    license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+    status = (ROOT / "docs" / "LICENSING_STATUS.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8").lower()
-    assert "no license has been selected" in pending
-    assert "publication blocked" in readme
-    assert not (ROOT / "LICENSE").exists()
+    metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    assert license_text.startswith("MIT License\n\nCopyright (c) 2026 DavidoffichW")
+    assert "MIT License" in status
+    assert "mit license" in readme
+    assert metadata["project"]["license"] == "MIT"
 
 
 def test_public_text_contains_no_workspace_or_private_reference_paths() -> None:

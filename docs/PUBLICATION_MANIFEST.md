@@ -4,6 +4,7 @@ The proposed first public source set is deliberately small:
 
 - `.github/workflows/ci.yml`
 - `.gitignore`
+- `LICENSE`
 - `README.md`
 - `docs/LICENSING_STATUS.md`
 - `THIRD_PARTY_NOTICES.md`
@@ -19,6 +20,5 @@ Excluded from publication are virtual environments, notebook checkpoints,
 `build/`, caches, portfolio coordination documents, private R0 research files,
 references, credentials, and unrelated application material.
 
-This is a reviewed candidate boundary, not publication authorization. An
-authored-content license and the remote repository action remain owner
-decisions.
+This is the reviewed public source boundary. It does not authorize a tag,
+GitHub Release, package publication, or expansion to NB-002/NB-004.

@@ -54,9 +54,8 @@ contracts. They do not prove the interpreter, libraries, or hardware correct,
 and they do not turn finite testing into a proof over unbounded inputs. The
 notebook says where each claim stops.
 
-## Publication status
+## License
 
-This is a local release candidate. **Publication blocked:** the owner has not
-yet selected an authored-content license or authorized creation of the remote
-repository. `docs/LICENSING_STATUS.md` records that boundary. No remote, tag, release,
-or public repository exists.
+MyDataLabNotes is available under the [MIT License](LICENSE). Third-party
+packages and cited works retain their own terms; see
+[Third-party notices](THIRD_PARTY_NOTICES.md) and [Sources](docs/SOURCES.md).
