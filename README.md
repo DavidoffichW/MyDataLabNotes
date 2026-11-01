@@ -17,6 +17,11 @@ measurements are a different kind of evidence. Every dataset is synthetic.
 NB-002 and NB-004 are planned but intentionally absent. One finished notebook
 beats three half-finished ones.
 
+The first notebook separates correctness from performance: contracts, oracles,
+and finite tests address what an algorithm computes; timings describe a
+particular implementation and environment. The same distinction will matter
+in later data and ML studies, where speed alone cannot establish validity.
+
 ## Run it
 
 The qualified environment is CPython 3.12. Install
