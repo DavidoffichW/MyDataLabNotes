@@ -1,4 +1,4 @@
-"""Execute the R1 notebook in fresh kernels and compare deterministic evidence."""
+"""Execute every published notebook in fresh kernels and compare evidence."""
 
 from __future__ import annotations
 
@@ -16,7 +16,10 @@ import nbformat
 import psutil
 from nbclient import NotebookClient
 
-NOTEBOOK = "001_how_do_we_know_an_algorithm_worked.ipynb"
+NOTEBOOKS = (
+    "001_how_do_we_know_an_algorithm_worked.ipynb",
+    "002_the_same_value_different_bytes.ipynb",
+)
 VARIABLE_TAGS = {"environment", "measurement"}
 
 
@@ -97,44 +100,50 @@ def main() -> int:
         raise SystemExit("--repeat must be at least one")
 
     root = Path(__file__).resolve().parents[1]
-    source = root / "notebooks" / NOTEBOOK
-    output_dir = source.parent if args.in_place else args.output_dir.resolve()
+    source_dir = root / "notebooks"
+    output_dir = source_dir if args.in_place else args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    destination = output_dir / NOTEBOOK
-
-    runs: list[dict[str, Any]] = []
-    executed = None
-    for run_number in range(1, args.repeat + 1):
-        executed, observation = execute_once(source, root)
-        observation["run"] = run_number
-        runs.append(observation)
-        print(
-            f"run {run_number}: {observation['wall_seconds']:.3f}s, "
-            f"peak RSS {observation['peak_rss_bytes'] / 2**20:.1f} MiB"
+    notebook_reports: list[dict[str, Any]] = []
+    for notebook_name in NOTEBOOKS:
+        source = source_dir / notebook_name
+        destination = output_dir / notebook_name
+        runs: list[dict[str, Any]] = []
+        executed = None
+        for run_number in range(1, args.repeat + 1):
+            executed, observation = execute_once(source, root)
+            observation["run"] = run_number
+            runs.append(observation)
+            print(
+                f"{notebook_name} run {run_number}: "
+                f"{observation['wall_seconds']:.3f}s, "
+                f"peak RSS {observation['peak_rss_bytes'] / 2**20:.1f} MiB"
+            )
+        digests = {run["deterministic_digest"] for run in runs}
+        if len(digests) != 1:
+            raise SystemExit(f"deterministic evidence changed for {notebook_name}")
+        if not args.in_place:
+            shutil.copy2(source, destination)
+        assert executed is not None
+        nbformat.write(executed, destination)
+        notebook_reports.append(
+            {
+                "notebook": notebook_name,
+                "repeat": args.repeat,
+                "deterministic_match": True,
+                "runs": runs,
+            }
         )
-
-    digests = {run["deterministic_digest"] for run in runs}
-    if len(digests) != 1:
-        raise SystemExit("deterministic evidence changed across fresh-kernel runs")
-
-    if not args.in_place:
-        shutil.copy2(source, destination)
-    assert executed is not None
-    nbformat.write(executed, destination)
+        print(f"deterministic evidence: {next(iter(digests))}")
+        print(f"executed notebook: {destination}")
 
     report = {
-        "schema": "mydatalabnotes.notebook-run.v1",
-        "notebook": NOTEBOOK,
-        "repeat": args.repeat,
-        "deterministic_match": True,
-        "runs": runs,
+        "schema": "mydatalabnotes.notebook-run.v2",
+        "notebooks": notebook_reports,
     }
     if args.report:
         report_path = args.report.resolve()
         report_path.parent.mkdir(parents=True, exist_ok=True)
         report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    print(f"deterministic evidence: {next(iter(digests))}")
-    print(f"executed notebook: {destination}")
     return 0
 
 

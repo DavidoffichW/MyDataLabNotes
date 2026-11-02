@@ -53,6 +53,11 @@ def main() -> int:
             "tools/check_executed_notebook.py",
             "build/executed/001_how_do_we_know_an_algorithm_worked.ipynb",
         ],
+        [
+            python,
+            "tools/check_executed_notebook.py",
+            "build/executed/002_the_same_value_different_bytes.ipynb",
+        ],
     ]
     for command in commands:
         print(f"\n> {' '.join(command)}", flush=True)
