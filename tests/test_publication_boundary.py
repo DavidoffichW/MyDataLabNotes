@@ -44,7 +44,21 @@ def test_public_text_contains_no_workspace_or_private_reference_paths() -> None:
 
 
 def test_candidate_contains_no_binary_or_private_data_files() -> None:
-    forbidden_suffixes = {".csv", ".xlsx", ".pdf", ".db", ".sqlite", ".zip", ".pt", ".onnx"}
+    forbidden_suffixes = {
+        ".csv",
+        ".xlsx",
+        ".pdf",
+        ".db",
+        ".sqlite",
+        ".zip",
+        ".pt",
+        ".onnx",
+        ".exe",
+        ".dll",
+        ".obj",
+        ".o",
+        ".so",
+    }
     forbidden = [
         path
         for path in ROOT.rglob("*")

@@ -1,4 +1,4 @@
-"""Run the quick R1 validation profile."""
+"""Run the quick notebook validation profile."""
 
 from __future__ import annotations
 
@@ -35,6 +35,7 @@ def main() -> int:
 
     commands = [
         [uv_executable(), "lock", "--check"],
+        [python, "tools/build_native.py", "--report", "build/validation/native_build.json"],
         [python, "-m", "ruff", "check", "."],
         [python, "-m", "pytest", "-q"],
         [
@@ -51,6 +52,11 @@ def main() -> int:
             python,
             "tools/check_executed_notebook.py",
             "build/executed/001_how_do_we_know_an_algorithm_worked.ipynb",
+        ],
+        [
+            python,
+            "tools/check_executed_notebook.py",
+            "build/executed/002_the_same_value_different_bytes.ipynb",
         ],
     ]
     for command in commands:

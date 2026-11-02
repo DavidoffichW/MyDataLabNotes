@@ -1,7 +1,8 @@
 # Public source manifest
 
-The repository contains the independently authored notebook, its small support
-package, tests, validation tools, and the files needed to reproduce the study.
+The repository contains the independently authored notebooks, their small
+support package and C17 laboratory, tests, validation tools, and the files
+needed to reproduce the studies.
 
 ## Included
 
@@ -11,6 +12,8 @@ package, tests, validation tools, and the files needed to reproduce the study.
 - `pyproject.toml` and `uv.lock`
 - `docs/`
 - `notebooks/001_how_do_we_know_an_algorithm_worked.ipynb`
+- `notebooks/002_the_same_value_different_bytes.ipynb`
+- `native/include/`, `native/src/`, and `native/tests/`
 - `src/mydatalabnotes/`
 - `tests/`
 - `tools/`

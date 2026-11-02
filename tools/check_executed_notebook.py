@@ -1,4 +1,4 @@
-"""Check that the executed NB-001 copy contains readable experimental evidence."""
+"""Check that an executed notebook contains readable experimental evidence."""
 
 from __future__ import annotations
 
@@ -27,27 +27,44 @@ def main() -> int:
             missing.append(index)
     if missing:
         raise SystemExit(f"evidence cells without outputs: {missing}")
-    if len(outputs) < 18:
-        raise SystemExit(f"expected at least 18 compact outputs, found {len(outputs)}")
+    contracts = {
+        "001_how_do_we_know_an_algorithm_worked.ipynb": (
+            18,
+            {
+                "all_postconditions",
+                "minimal counterexample",
+                "deterministic randomized cases",
+                "metamorphic cases",
+            },
+        ),
+        "002_the_same_value_different_bytes.ipynb": (
+            25,
+            {
+                "portable packet",
+                "forward replay evidence",
+                "checkpoint-recovered",
+                "ordinary memory supplies no historical api",
+            },
+        ),
+    }
+    if args.notebook.name not in contracts:
+        raise SystemExit(f"no output contract for {args.notebook.name}")
+    minimum_outputs, required = contracts[args.notebook.name]
+    if len(outputs) < minimum_outputs:
+        raise SystemExit(
+            f"expected at least {minimum_outputs} compact outputs, found {len(outputs)}"
+        )
 
     text = "\n".join(
-        str(output.get("text", ""))
-        + str(output.get("data", {}).get("text/plain", ""))
+        str(output.get("text", "")) + str(output.get("data", {}).get("text/plain", ""))
         for output in outputs
     )
-    required = {
-        "all_postconditions",
-        "minimal counterexample",
-        "deterministic randomized cases",
-        "metamorphic cases",
-    }
     absent = sorted(token for token in required if token not in text.lower())
     if absent:
         raise SystemExit(f"missing expected evidence markers: {absent}")
 
     print(
-        f"executed notebook check passed: {len(notebook.cells)} cells, "
-        f"{len(outputs)} outputs"
+        f"executed notebook check passed: {len(notebook.cells)} cells, {len(outputs)} outputs"
     )
     return 0
 
