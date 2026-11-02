@@ -1,6 +1,5 @@
-# Sources used by NB-001
+# Sources for "How do we know an algorithm worked?"
 
-NB-001 uses the R0 source catalogue rather than inventing a new bibliography.
 The notebook cites these entries directly:
 
 - **S002** — FPWM Lab at commit

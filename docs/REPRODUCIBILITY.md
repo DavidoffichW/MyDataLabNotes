@@ -1,4 +1,4 @@
-# Reproducing NB-001
+# Reproducing the notebook
 
 The qualified profile is CPython 3.12 on Windows and Ubuntu. `pyproject.toml`
 keeps direct dependency declarations readable; `uv.lock` records the exact
@@ -28,9 +28,9 @@ To refresh the compact outputs committed in the notebook:
 uv run python tools/run_notebooks.py --in-place --repeat 2
 ```
 
-No heavyweight profile exists in R1. Later notebooks may add an opt-in profile,
-but it must use separate commands, declared inputs, and explicit resource
-ceilings.
+The default validation path is intentionally small. Heavier experiments should
+use separate commands, declared inputs, and explicit resource ceilings rather
+than slowing down the ordinary correctness check.
 
 For a deeper replay check without changing the scientific workload, run ten
 fresh kernels instead of the two used by the quick profile:

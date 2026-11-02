@@ -56,9 +56,7 @@ def test_notebook_has_compact_executed_outputs_without_errors() -> None:
     assert NOTEBOOKS[0].stat().st_size < 2_000_000
 
 
-def test_private_paths_and_unimplemented_notebooks_are_absent() -> None:
+def test_private_paths_are_absent() -> None:
     text = NOTEBOOKS[0].read_text(encoding="utf-8").lower()
     forbidden = (r"[a-z]:\\users\\", r"[a-z]:\\projects\\", "mydatalabnotes_codex")
     assert not any(re.search(pattern, text) for pattern in forbidden)
-    assert "nb-002" in text and "planned and unimplemented" in text
-    assert "nb-004" in text and "planned and unimplemented" in text
