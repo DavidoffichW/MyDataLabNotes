@@ -1,4 +1,4 @@
-"""Run the quick R1 validation profile."""
+"""Run the quick notebook validation profile."""
 
 from __future__ import annotations
 
@@ -35,6 +35,7 @@ def main() -> int:
 
     commands = [
         [uv_executable(), "lock", "--check"],
+        [python, "tools/build_native.py", "--report", "build/validation/native_build.json"],
         [python, "-m", "ruff", "check", "."],
         [python, "-m", "pytest", "-q"],
         [
